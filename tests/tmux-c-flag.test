@@ -1,0 +1,3 @@
+#!/bin/sh
+
+$TMUX_L -f $TMUX_CONF -c 'foo'

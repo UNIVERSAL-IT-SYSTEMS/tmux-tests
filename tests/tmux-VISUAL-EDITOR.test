@@ -1,0 +1,85 @@
+#!/bin/sh
+
+unset VISUAL EDITOR
+
+CMD="start; show -g status-keys; showw -g mode-keys"
+
+$TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+
+VISUAL=vi $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=xvix $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/vi $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/vi/foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/xvix $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+
+VISUAL=emacs $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=xemacsx $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/emacs $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/emacs/foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/xemacsx $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+
+VISUAL=foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=xfoox $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/foo/foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=/tmp/xfoox $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+
+EDITOR=vi $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=xvix $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/vi $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/vi/foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/xvix $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+
+EDITOR=emacs $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=xemacsx $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/emacs $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/emacs/foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/xemacsx $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+
+EDITOR=foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=xfoox $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/foo/foo $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+EDITOR=/tmp/xfoox $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+
+VISUAL=vi    EDITOR=emacs $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=foo   EDITOR=emacs $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=emacs EDITOR=vi    $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+VISUAL=emacs EDITOR=foo   $TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+
+exit 0

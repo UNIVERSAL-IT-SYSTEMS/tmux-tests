@@ -1,0 +1,71 @@
+#!/bin/sh
+
+$TMUX_L new -d -sS -nW -x 80 -y 25 "$TMUX_L wait never"
+$TMUX_L set -g default-command "$TMUX_L wait never"
+
+middle=$($TMUX_L display -pF'#{pane_id}')
+first=0
+last=8
+
+$TMUX_L splitw -dl5\; splitw -bdl12
+$TMUX_L splitw -dhl20\; splitw -bdhl40
+
+$TMUX_L selectp -D\; splitw -dhl20\; splitw -bdhl40
+$TMUX_L selectp -t$middle
+$TMUX_L selectp -U\; splitw -dhl20\; splitw -bdhl40
+$TMUX_L selectp -t$middle
+
+layout=$($TMUX_L lsw -F'#{window_layout}')
+echo "$middle" "$($TMUX_L display -p '#{pane_id} #{pane_index}')" "$layout"
+
+try_target1()
+{
+	$TMUX_L selectp -t$1
+	result=$(echo $($TMUX_L lsp -F'#{pane_id},#{pane_index}:#{pane_active}'))
+	printf "%-24s %s\n" "$1" "$result"
+}
+
+try_target()
+{
+	eval "$2"; try_target1 "$1"
+	eval "$2"; try_target1 ".$1"
+	eval "$2"; try_target1 ":.$1"
+	eval "$2"; try_target1 ":W.$1"
+	eval "$2"; try_target1 "S:.$1"
+	eval "$2"; try_target1 "S:W.$1"
+}
+
+try_target "{last}" "$TMUX_L selectp -t$last\; selectp -t$first"
+try_target "!" "$TMUX_L selectp -t$last\; selectp -t$first"
+
+try_target "{next}" "$TMUX_L selectp -t$last"
+try_target "+" "$TMUX_L selectp -t$last"
+
+try_target "{previous}" "$TMUX_L selectp -t$first"
+try_target "-" "$TMUX_L selectp -t$first"
+
+read targets <<EOF
+{top} \
+top \
+{bottom} \
+bottom \
+{left} \
+left \
+{right} \
+right \
+{top-left} \
+top-left \
+{top-right} \
+top-right \
+{bottom-left} \
+bottom-left \
+{bottom-right} \
+bottom-right \
+{up-of} \
+{down-of} \
+{left-of} \
+{right-of}
+EOF
+for target in $targets; do
+	try_target "$target" "$TMUX_L selectp -t$middle"
+done

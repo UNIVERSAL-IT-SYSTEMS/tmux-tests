@@ -1,0 +1,3 @@
+To run use:
+
+	TEST_TMUX=/path/to/tmux sh run.sh

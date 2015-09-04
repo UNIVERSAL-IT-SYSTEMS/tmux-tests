@@ -1,0 +1,28 @@
+#!/bin/sh
+
+S=$(mktemp)
+trap 'rm -f $S' 0 1 15
+
+cat <<EOF >$S
+for i in 0 10 20 30 40 50 60 70; do
+	for j in 0 10 20; do
+		printf "\033[\${j};\${i}H\${i},\${j}"
+	done
+done
+
+printf "\033[25;81Hfoo"
+
+printf "\033[26;Hbar"
+printf "\033[;82Hbaz"
+
+printf "\033[15;H15,"
+printf "\033[;15H,15"
+
+printf "\033[Hzero"
+
+$TMUX_L wait -S tests
+$TMUX_L wait never
+EOF
+
+$TMUX_L new -d -x 80 -y 25 -- sh $S
+$TMUX_L wait tests\; capturep -ep -S- -E-

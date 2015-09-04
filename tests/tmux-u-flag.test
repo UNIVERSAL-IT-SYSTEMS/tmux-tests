@@ -1,0 +1,12 @@
+#!/bin/sh
+
+unset LANG LC_ALL
+
+CMD="start; show -g status-utf8; show -g mouse-utf8; showw -g utf8"
+
+$TMUX_L $CMD
+$TMUX_L wait done 2>/dev/null
+$TMUX_L -u $CMD
+$TMUX_L wait done 2>/dev/null
+
+exit 0

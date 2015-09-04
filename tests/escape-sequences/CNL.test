@@ -1,0 +1,19 @@
+#!/bin/sh
+
+S=$(mktemp)
+trap 'rm -f $S' 0 1 15
+
+cat <<EOF >$S
+stty tabs
+
+printf "\033[Ea"
+printf "\tb\033[Ec"
+printf "\td\033[2Ee"
+printf "\033[24df\033[Eg"
+
+$TMUX_L wait -S tests
+$TMUX_L wait never
+EOF
+
+$TMUX_L new -d -x 80 -y 25 -- sh $S
+$TMUX_L wait tests\; capturep -ep -S- -E-

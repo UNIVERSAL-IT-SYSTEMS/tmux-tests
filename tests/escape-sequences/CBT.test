@@ -1,0 +1,15 @@
+#!/bin/sh
+
+S=$(mktemp)
+trap 'rm -f $S' 0 1 15
+
+cat <<EOF >$S
+printf "\033[1;2H\033[Ztest"
+printf "\033[79G\010\033[Z0\010\033[1Z1\010\033[2Z2"
+
+$TMUX_L wait -S tests
+$TMUX_L wait never
+EOF
+
+$TMUX_L new -d -x 80 -y 25 -- sh $S
+$TMUX_L wait tests\; capturep -ep -S- -E-

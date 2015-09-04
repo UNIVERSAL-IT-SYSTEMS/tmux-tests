@@ -1,0 +1,10 @@
+#!/bin/sh
+
+CMD="start; showenv -g PWD"
+
+(cd /; $TMUX_L $CMD)
+$TMUX_L wait done 2>/dev/null
+(cd /tmp; $TMUX_L $CMD)
+$TMUX_L wait done 2>/dev/null
+
+exit 0
