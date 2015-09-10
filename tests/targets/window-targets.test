@@ -1,0 +1,60 @@
+#!/bin/sh
+
+$TMUX_L new -d -sS -nzero -x 80 -y 25 "$TMUX_L wait never"
+$TMUX_L set -g default-command "$TMUX_L wait never"
+
+$TMUX_L splitw
+for i in one middle three four; do
+	$TMUX_L neww -n$i\; splitw
+done
+
+try_target1()
+{
+	$TMUX_L selectw -t$1 2>&1
+	result=$(echo $($TMUX_L display -pF'#{window_name},#{window_id},#{window_index}.#{pane_index}'))
+	printf "%-24s %s\n" "$1" "$result"
+}
+
+try_target()
+{
+	eval "$2"; try_target1 "$1"
+	eval "$2"; try_target1 "$1."
+	eval "$2"; try_target1 "$1.0"
+	eval "$2"; try_target1 "$1.1"
+	eval "$2"; try_target1 ":$1"
+	eval "$2"; try_target1 ":$1."
+	eval "$2"; try_target1 ":$1"
+	eval "$2"; try_target1 ":$1.0"
+	eval "$2"; try_target1 ":$1.1"
+	eval "$2"; try_target1 "S:$1"
+	eval "$2"; try_target1 "S:$1."
+	eval "$2"; try_target1 "S:$1.0"
+	eval "$2"; try_target1 "S:$1.1"
+}
+
+try_target "{last}" "$TMUX_L selectw -t:one\; selectp -t0\; selectw -t:middle\; selectp -t0"
+try_target "!" "$TMUX_L selectw -t:one\; selectp -t0\; selectw -t:middle\; selectp -t0"
+
+read targets <<EOF
+{start} \
+^ \
+{end} \
+\$ \
+{next} \
++ \
+{previous} \
+- \
+one \
+middle \
+three \
+four \
+0 \
+1 \
+2 \
+3 \
+4 \
+{}
+EOF
+for target in $targets; do
+	try_target "$target" "$TMUX_L selectw -t:middle\; selectp -t1"
+done
