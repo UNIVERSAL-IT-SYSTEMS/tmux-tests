@@ -1,0 +1,47 @@
+#!/bin/sh
+
+F=$(mktemp)
+trap 'rm -f $F' 0 1 15
+
+cat <<EOF >$F
+un\
+bind \
+-a
+EOF
+$TMUX_L -f $F start\; lsk
+$TMUX_L start\; source $F\; lsk
+
+cat <<EOF >$F
+   unbind -a   
+EOF
+$TMUX_L -f $F start\; lsk
+$TMUX_L start\; source $F\; lsk
+
+cat <<EOF >$F
+	unbind -a
+EOF
+$TMUX_L -f $F start\; lsk
+$TMUX_L start\; source $F\; lsk
+
+cat <<EOF >$F
+run "$TMUX_L unbind -a"
+EOF
+$TMUX_L -f $F start\; lsk
+$TMUX_L start\; source $F\; lsk
+
+unset FOO
+cat <<EOF >$F
+FOO=123
+EOF
+$TMUX_L start\; source $F\; showenv -g FOO
+
+cat <<EOF >$F
+	unbind \ 
+	-a
+EOF
+$TMUX_L start\; source $F 2>&1|sed "s|$F|@|"
+
+cat <<EOF >$F
+burble
+EOF
+$TMUX_L start\; source $F 2>&1|sed "s|$F|@|"
