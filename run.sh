@@ -53,4 +53,7 @@ for this in $TESTS; do
 	printf "%s\n" "$result"
 	
 	$TMUX_L has 2>/dev/null && $TMUX_L kill-server
+	while $TMUX_L has 2>/dev/null; do
+		sleep 1
+	done
 done
