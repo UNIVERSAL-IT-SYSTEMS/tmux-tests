@@ -51,9 +51,9 @@ for this in $TESTS; do
 		rm -f "$out"
 	fi
 	printf "%s\n" "$result"
-	
-	$TMUX_L has 2>/dev/null && $TMUX_L kill-server
-	while $TMUX_L has 2>/dev/null; do
+
+	$TMUX_L kill-server 2>/dev/null
+	while $TMUX_L kill-server 2>/dev/null; do
 		sleep 1
 	done
 done
