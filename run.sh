@@ -19,7 +19,7 @@ TEST_TMUX="$($REALPATH $TEST_TMUX)"
 [ -x "$TEST_TMUX" ] || exit 1
 
 echo tmux is $TEST_TMUX
-TMUX_L="$TEST_TMUX -L__tests__"
+TMUX_L="$TEST_TMUX -L__tests__ -f/dev/null"
 $TMUX_L has 2>/dev/null && $TMUX_L kill-server
 
 ROOT="$($REALPATH tests)"
