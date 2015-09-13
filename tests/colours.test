@@ -289,8 +289,8 @@ for colour in $colours; do
 	try_colour $colour
 done
 
-let i=0
+i=0
 while [ $i -lt 257 ]; do
 	try_colour colour$i
-	let i++
+	i=$(expr $i + 1)
 done
