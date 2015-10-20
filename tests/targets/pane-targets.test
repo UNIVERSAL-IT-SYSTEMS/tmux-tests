@@ -7,12 +7,12 @@ middle=$($TMUX_L display -pF'#{pane_id}')
 first=0
 last=8
 
-$TMUX_L splitw -dl5\; splitw -bdl12
-$TMUX_L splitw -dhl20\; splitw -bdhl40
+$TMUX_L splitw -dl5\; splitw -bdl5
+$TMUX_L splitw -dhl20\; splitw -bdhl18
 
-$TMUX_L selectp -D\; splitw -dhl20\; splitw -bdhl40
+$TMUX_L selectp -D\; splitw -dhl20\; splitw -bdhl18
 $TMUX_L selectp -t$middle
-$TMUX_L selectp -U\; splitw -dhl20\; splitw -bdhl40
+$TMUX_L selectp -U\; splitw -dhl20\; splitw -bdhl18
 $TMUX_L selectp -t$middle
 
 layout=$($TMUX_L lsw -F'#{window_layout}')
